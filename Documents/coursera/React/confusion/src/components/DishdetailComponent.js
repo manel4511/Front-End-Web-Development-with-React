@@ -41,7 +41,7 @@ import { Link } from "react-router-dom";
     }
 
 
-    function RenderComments({comments}) {
+    function RenderComments({comments , addComment, dishId}) {
         if (comments != null) {
             const cmnts = comments.map((commnts) => {
                 return (
@@ -65,6 +65,9 @@ import { Link } from "react-router-dom";
                 <div className="col-12 col-md-5 m-1">
                     <h4> Comments </h4>
                     {cmnts}
+                    <CommentForm dishId={dishId} addComment={addComment}>
+
+                        </CommentForm>
                 </div>
             );  
         // if comments is empty     
@@ -101,12 +104,13 @@ import { Link } from "react-router-dom";
                     props.dish
                 }/>
            
-                <RenderComments comments={
-                    props.comments
-                }/>
+           <RenderComments 
+                                comments={props.comments}
+                                addComment={props.addComment}
+                                dishId={props.dish.id}
+                            />
                  <div className="row">
-                <CommentForm 
-                    />
+                
             </div>
         </div>
     </div>);
@@ -118,14 +122,14 @@ import { Link } from "react-router-dom";
 const maxLength = len => val => !val || val.length <= len;
 const minLength = len => val => val && val.length >= len;
 
-class CommentForm extends React.Component {
+class CommentForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isModalOpen: false
         };
         this.toggleModal = this.toggleModal.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        //this.handleSubmit=this.handleSubmit(this);
     }
 
     toggleModal() {
@@ -134,11 +138,14 @@ class CommentForm extends React.Component {
         });
     }
 
-    handleSubmit(values) { 
-        alert("Current State is: " + JSON.stringify(values));
+    handleSubmit(values) {
+
         this.toggleModal();
 
-        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
+        console.log('Current State is: ' + JSON.stringify(values));
+        //
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+
     }
 
     render() {
