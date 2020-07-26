@@ -20,6 +20,7 @@ import { Control, LocalForm, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+
     function RenderDish({dish}) {
         if (dish != null) {
             return (
@@ -41,7 +42,7 @@ import { Loading } from './LoadingComponent';
     }
 
 
-    function RenderComments({comments , addComment, dishId}) {
+    function RenderComments({comments , postComment, dishId}) {
         if (comments != null) {
             const cmnts = comments.map((commnts) => {
                 return (
@@ -65,7 +66,7 @@ import { Loading } from './LoadingComponent';
                 <div className="col-12 col-md-5 m-1">
                     <h4> Comments </h4>
                     {cmnts}
-                    <CommentForm dishId={dishId} addComment={addComment}>
+                    <CommentForm dishId={dishId} postComment={postComment}>
 
                         </CommentForm>
                 </div>
@@ -124,7 +125,7 @@ import { Loading } from './LoadingComponent';
            
            <RenderComments 
                                 comments={props.comments}
-                                addComment={props.addComment}
+                                postComment={props.postComment}
                                 dishId={props.dish.id}
                             />
                  <div className="row">
@@ -162,7 +163,7 @@ class CommentForm extends Component {
 
         console.log('Current State is: ' + JSON.stringify(values));
         //
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
 
     }
 
